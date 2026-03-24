@@ -28,3 +28,15 @@ function calculateAquiferHealth(gw) {
 }
 
 module.exports = { calculateAquiferHealth };
+
+{
+  "version": 2,
+  "builds": [
+    { "src": "frontend/package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } },
+    { "src": "backend/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/backend/$1.js" },
+    { "src": "/(.*)", "dest": "/frontend/dist/$1" }
+  ]
+}

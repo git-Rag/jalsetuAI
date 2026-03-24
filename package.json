@@ -4,6 +4,9 @@
   "description": "AI-powered smart water management system that:\r - Predicts water shortages\r - Optimizes tanker delivery\r - Provides AI-based insights",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "build": "cd frontend && npm run build",
+    "start": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/git-Rag/jalsetuAI/issues"
   },
-  "homepage": "https://github.com/git-Rag/jalsetuAI#readme"
+  "homepage": "https://github.com/git-Rag/jalsetuAI#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
