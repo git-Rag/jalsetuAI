@@ -132,28 +132,45 @@ export default function Home() {
     backgroundImage: `linear-gradient(rgba(0, 20, 35, 0.5), rgba(15, 76, 92, 0.65)), url('${images[index]}')`,
   };
 
+  const parseCoordString = (raw) => {
+    if (!raw || typeof raw !== 'string') return null;
+    const parts = raw.split(/[,\s]+/).map((p) => parseFloat(p));
+    if (parts.length >= 2 && !Number.isNaN(parts[0]) && !Number.isNaN(parts[1])) {
+      return { lat: parts[0], lon: parts[1] };
+    }
+    return null;
+  };
+
   const reportVillage = async (location) => {
     setError(null);
     setLoading(true);
     setDetails(null);
 
     try {
-      const queryLocation = location?.trim() || 'Sehore';
-      const response = await getVillageData(queryLocation);
+      const trimmed = typeof location === 'string' ? location.trim() : '';
+      const coords = typeof location === 'object' && location?.lat != null && location?.lon != null
+        ? { lat: location.lat, lon: location.lon }
+        : parseCoordString(trimmed);
+
+      const params = coords
+        ? { lat: coords.lat, lon: coords.lon, lang: language }
+        : { q: trimmed || 'Sehore, Madhya Pradesh', lang: language };
+
+      const response = await getVillageData(params);
       const data = response?.data || fallbackDetails;
       setDetails({
-        locationName: data.village || queryLocation,
-        waterAvailability: data.waterLevel || data.waterAvailability || 'Moderate',
-        riskLevel: data.risk || data.riskLevel || 'Medium',
-        trendInsight: data.trendInsight || fallbackDetails.trendInsight,
+        locationName: data.location || data.village || trimmed || '—',
+        waterAvailability: data.waterAvailability || data.waterLevel || 'Moderate',
+        riskLevel: data.riskLevel || data.risk || 'Medium',
+        trendInsight: data.trend || data.trendInsight || fallbackDetails.trendInsight,
         tankerPrediction: data.tankerPrediction || fallbackDetails.tankerPrediction,
-        suggestedActions: data.suggestedActions || fallbackDetails.suggestedActions,
-        aiSummary: data.aiSummary || fallbackDetails.aiSummary,
+        suggestedActions: data.actions || data.suggestedActions || fallbackDetails.suggestedActions,
+        aiSummary: data.summary || data.aiSummary || fallbackDetails.aiSummary,
       });
     } catch (err) {
       console.warn('Village data fallback:', err?.message || err);
       setDetails(fallbackDetails);
-      setError('Live API unavailable, showing sample village data.');
+      setError(language === 'hi' ? 'लाइव API उपलब्ध नहीं; नमूना डेटा दिखाया जा रहा है।' : 'Live API unavailable, showing sample village data.');
     } finally {
       setLoading(false);
     }
@@ -170,7 +187,7 @@ export default function Home() {
       ({ coords }) => {
         const loc = `${coords.latitude.toFixed(4)}, ${coords.longitude.toFixed(4)}`;
         setLocationInput(loc);
-        reportVillage(loc);
+        reportVillage({ lat: coords.latitude, lon: coords.longitude });
       },
       (geoErr) => {
         setLoading(false);
@@ -273,7 +290,7 @@ export default function Home() {
         <div className='cta-overlay' />
         <div className='container cta-content'>
           <h2>{t.finalCta}</h2>
-          <button className='btn btn-primary' onClick={() => navigate('/dashboard')}>{t.dashboard}</button>
+          <button className='btn btn-primary' onClick={() => navigate('/dashboard')}>{t.goDashboard}</button>
         </div>
       </section>
     </div>
