@@ -42,21 +42,21 @@ export default function LocationCard({
       </div>
 
       {loading && <div className='spinner'>⏳ {lang === 'hi' ? 'लोड किया जा रहा है...' : 'Loading village data...'}</div>}
-      {error && <div className='alert error'>{error}</div>}
+      
 
       {details && (
         <div className='location-result'>
           <h4>{details.locationName || details.village || 'N/A'}</h4>
           <div className='result-row'>
-            <span>📍 {t.locationName}</span>
+            <span>📍 {t.locationName}:{' '}</span>
             <strong>{details.locationName || details.village}</strong>
           </div>
           <div className='result-row'>
-            <span>💧 {t.waterAvailability}</span>
+            <span>💧 {t.waterAvailability}:{' '}</span>
             <strong>{details.waterAvailability}</strong>
           </div>
           <div className='result-row'>
-            <span>⚠️ {t.riskLevel}</span>
+            <span>⚠️ {t.riskLevel}:{' '}</span>
             <strong style={{ color: riskStyles[details.riskLevel] || '#000' }}>{details.riskLevel}</strong>
           </div>
           <div className='result-row'>

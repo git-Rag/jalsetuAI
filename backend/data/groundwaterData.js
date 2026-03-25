@@ -1,6 +1,6 @@
 const groundwaterData = [
   {
-    villageId: 'V001', aquiferType: 'Deccan Basalt', wellCount: 4,
+    villageId: 'V001', aquiferType: 'Vidhisha', wellCount: 4,
     currentDepthMeters: 18.4, preMonsoonDepthMeters: 12.2, postMonsoonDepthMeters: 7.8,
     depletionRateMetersPerMonth: 1.8,
     monthlyReadings: [
@@ -11,7 +11,7 @@ const groundwaterData = [
     criticalDepthMeters: 25.0, rechargeZone: 'Low', lastInspectionDate: '2025-03-10', wellCondition: 'Operational'
   },
   {
-    villageId: 'V003', aquiferType: 'Deccan Basalt', wellCount: 2,
+    villageId: 'V003', aquiferType: 'Dindori', wellCount: 2,
     currentDepthMeters: 22.1, preMonsoonDepthMeters: 15.0, postMonsoonDepthMeters: 9.5,
     depletionRateMetersPerMonth: 2.4,
     monthlyReadings: [
@@ -33,7 +33,7 @@ const groundwaterData = [
     criticalDepthMeters: 30.0, rechargeZone: 'Moderate', lastInspectionDate: '2025-03-04', wellCondition: 'Operational'
   },
   {
-    villageId: 'V007', aquiferType: 'Deccan Basalt', wellCount: 5,
+    villageId: 'V007', aquiferType: 'Mandla', wellCount: 5,
     currentDepthMeters: 20.1, preMonsoonDepthMeters: 13.7, postMonsoonDepthMeters: 8.9,
     depletionRateMetersPerMonth: 2.0,
     monthlyReadings: [
@@ -44,7 +44,7 @@ const groundwaterData = [
     criticalDepthMeters: 25.0, rechargeZone: 'Low', lastInspectionDate: '2025-03-01', wellCondition: 'Degraded'
   },
   {
-    villageId: 'V009', aquiferType: 'Deccan Basalt', wellCount: 3,
+    villageId: 'V009', aquiferType: 'Pipra', wellCount: 3,
     currentDepthMeters: 23.5, preMonsoonDepthMeters: 16.2, postMonsoonDepthMeters: 10.3,
     depletionRateMetersPerMonth: 2.8,
     monthlyReadings: [

@@ -31,17 +31,17 @@ if ($existing) {
 }
 
 # set env for frontend
-Set-Content -Path "..\frontend\.env" -Value "VITE_API_URL=$backendUrl"
+Set-Content -Path ".\frontend\.env.local" -Value "VITE_API_URL=$backendUrl"
 
 # start backend
 Write-Host "Starting backend on port $backendPort..."
-Push-Location ..\backend
+Push-Location .\backend
 Start-Process -NoNewWindow -FilePath powershell -ArgumentList '-NoExit', '-Command', "$env:PORT=$backendPort; npm run dev"
 Pop-Location
 
 # start frontend
 Write-Host "Starting frontend on port $frontendPort..."
-Push-Location ..\frontend
+Push-Location .\frontend
 Start-Process -NoNewWindow -FilePath powershell -ArgumentList '-NoExit', '-Command', 'npm run dev'
 Pop-Location
 
