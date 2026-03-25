@@ -5,3 +5,5 @@ build/
 .vite/
 npm-debug.log
 .DS_Store
+.vercel
+.env*.local

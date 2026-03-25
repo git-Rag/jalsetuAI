@@ -10,10 +10,14 @@ export function useGroundwater() {
   useEffect(() => {
     Promise.all([getAllGroundwater(), getGroundwaterSummary()])
       .then(([gwRes, summaryRes]) => {
+        console.debug('[useGroundwater] success', gwRes.data?.length, summaryRes.data);
         setData(gwRes.data);
         setSummary(summaryRes.data);
       })
-      .catch((err) => setError(err))
+      .catch((err) => {
+        console.error('[useGroundwater] error', err?.message ?? err);
+        setError(err?.message ?? String(err));
+      })
       .finally(() => setLoading(false));
   }, []);
 

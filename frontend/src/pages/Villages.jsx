@@ -15,7 +15,7 @@ export default function Villages() {
   }, [villages, filter]);
 
   if (loading) return <p>Loading villages...</p>;
-  if (error) return <p>Failed to load villages.</p>;
+  if (error) return <p>Failed to load villages: {error}</p>;
 
   return (
     <div>

@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Sidebar from './components/Layout/Sidebar';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Villages from './pages/Villages';
 import Groundwater from './pages/Groundwater';
@@ -12,14 +13,17 @@ import About from './pages/About';
 import './App.css';
 
 export default function App() {
+  const location = useLocation();
+  const showSidebar = location.pathname !== '/';
+
   return (
     <div className='app'>
       <Navbar />
       <div className='app-layout'>
-        <Sidebar />
-        <main className='app-main'>
+        {showSidebar && <Sidebar />}
+        <main className='app-main' style={{ minHeight: showSidebar ? undefined : 'auto', padding: showSidebar ? '24px' : '0' }}>
           <Routes>
-            <Route path='/' element={<Navigate to='/dashboard' replace />} />
+            <Route path='/' element={<Home />} />
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/villages' element={<Villages />} />
             <Route path='/villages/:id' element={<VillageDetail />} />

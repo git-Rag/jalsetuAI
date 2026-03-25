@@ -17,7 +17,7 @@ export default function Groundwater() {
   }, [data]);
 
   if (loading) return <p>Loading groundwater...</p>;
-  if (error) return <p>Failed to fetch groundwater.</p>;
+  if (error) return <p>Failed to fetch groundwater: {error}</p>;
 
   return (
     <div className='groundwater'>

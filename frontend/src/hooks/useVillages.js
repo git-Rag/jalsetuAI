@@ -8,8 +8,14 @@ export function useVillages() {
 
   useEffect(() => {
     getVillages()
-      .then((res) => setData(res.data))
-      .catch((err) => setError(err))
+      .then((res) => {
+        console.debug('[useVillages] success', res.data?.length);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.error('[useVillages] error', err?.message ?? err);
+        setError(err?.message ?? String(err));
+      })
       .finally(() => setLoading(false));
   }, []);
 

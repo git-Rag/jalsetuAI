@@ -23,21 +23,49 @@ export default function Dashboard() {
   }, [villages, groundwater]);
 
   if (vLoading || gwLoading) return <p>Loading dashboard...</p>;
-  if (vError || gwError) return <p>Error loading dashboard</p>;
+  if (vError || gwError) return <p>Error loading dashboard: {vError || gwError}</p>;
 
   return (
     <div className='dashboard'>
-      <h2>Dashboard · डैशबोर्ड</h2>
-      <div className='stat-grid'>
-        <StatCard title='Villages' value={villages.length} subtitle='MP Pilot' />
-        <StatCard title='Critical Dispatch' value={stats?.criticalSurface || 0} subtitle='Surface water critical' color='var(--danger)' />
-        <StatCard title='High Risk' value={stats?.highSurface || 0} subtitle='Monitor immediately' color='var(--warning)' />
-        <StatCard title='Avg Days Left' value={stats?.avgDays || 0} subtitle='Overall' />
-        <StatCard title='Aquifer Stable' value={`${stats?.aquiferStable || 0}/22`} subtitle='' color='var(--groundwater)' />
-        <StatCard title='Dual Crisis' value={stats?.dual || 0} subtitle='Both water types' color='var(--danger)' />
-      </div>
+      <section className='dashboard-hero'>
+        <div className='dashboard-hero-overlay' />
+        <div className='dashboard-hero-content'>
+          <h2>JalSetu Dashboard</h2>
+          <p>Village-level water intelligence for sustainable rural management.</p>
+        </div>
+      </section>
 
-      <section className='dashboard-section'>
+      <section className='dashboard-summary container'>
+        <h3>Water Status</h3>
+        <div className='stat-grid'>
+          <StatCard title='Villages Monitored' value={villages.length} subtitle='MP Pilot' />
+          <StatCard title='Critical Risk' value={stats?.criticalSurface || 0} subtitle='Surface water critical' color='var(--danger)' />
+          <StatCard title='High Risk' value={stats?.highSurface || 0} subtitle='Requires action' color='var(--warning)' />
+          <StatCard title='Avg Days Left' value={stats?.avgDays || 0} subtitle='Water availability' />
+          <StatCard title='Aquifer Stable' value={`${stats?.aquiferStable || 0}/${groundwater.length}`} subtitle='Undertaking monitoring' color='var(--groundwater)' />
+          <StatCard title='Dual Riskvillages' value={stats?.dual || 0} subtitle='Surface + Aquifer' color='var(--danger)' />
+        </div>
+      </section>
+
+      <section className='dashboard-section container'>
+        <h3>Predictions</h3>
+        <div className='mini-grid'>
+          <article className='info-card'><span>📈</span><h4>Short Long Forecast</h4><p>3-6 day stream and aquifer projection.</p></article>
+          <article className='info-card'><span>🚚</span><h4>Tanker Needs</h4><p>Top 5 villages with urgent tanker dispatch need.</p></article>
+          <article className='info-card'><span>💧</span><h4>Rain Capture Potential</h4><p>Actionable sites for rapid recharging.</p></article>
+        </div>
+      </section>
+
+      <section className='dashboard-section container'>
+        <h3>Alerts</h3>
+        <div className='alerts-grid'>
+          <article className='alert-card high'><h4>High Risk: 10 villages</h4><p>Immediate outreach required in Dewas, Sehore, and Hoshangabad.</p></article>
+          <article className='alert-card warning'><h4>Moderate Risk: 14 villages</h4><p>Enhanced conservation and monitoring suggested across four zones.</p></article>
+          <article className='alert-card stable'><h4>Stable: 8 villages</h4><p>Schedule regular site inspection and extend support to lower-risk zones.</p></article>
+        </div>
+      </section>
+
+      <section className='dashboard-section container'>
         <h3>All Villages Summary</h3>
         <div className='table-wrap'>
           <table>
@@ -48,7 +76,7 @@ export default function Dashboard() {
               {villages.slice(0,22).map(v => {
                 const gw = groundwater.find(g => g.villageId === v.id);
                 return (
-                  <tr key={v.id} style={{ background: v.riskLevel === 'CRITICAL' ? '#fdecea' : v.riskLevel === 'HIGH' ? '#fffbe6' : 'transparent' }}>
+                  <tr key={v.id} className={`row-${v.riskLevel?.toLowerCase()}`}>
                     <td>{v.name}</td>
                     <td>{v.district}</td>
                     <td>{v.population}</td>

@@ -1,0 +1,15 @@
+.location-card { background: #fff; padding: 18px; border-radius: 16px; box-shadow: var(--shadow-card); border: 1px solid #e6e4d9; max-width: 980px; margin: 0 auto; }
+.location-card h3 { font-size: 1.45rem; margin-bottom: 10px; color: #0f4c5c; }
+.location-card p { color: #4a4a4a; margin-bottom: 16px; }
+.location-actions { display: flex; flex-direction: column; gap: 12px; }
+.location-actions .btn { font-weight: 700; border-radius: 10px; padding: 10px 14px; display: inline-flex; align-items: center; gap: 6px; }
+.location-actions .manual-input { display: flex; gap: 8px; flex-wrap: wrap; }
+.location-actions input { flex: 1; min-width: 180px; border: 1px solid #ccd0d4; border-radius: 8px; padding: 10px; }
+.location-result { margin-top: 18px; border-top: 1px solid #e5e3d6; padding-top: 16px; color: #1a1a1a; }
+.location-result h4 { margin: 0 0 12px; color: #0f4c5c; }
+.location-result .result-row { margin-bottom: 10px; }
+.location-result .result-row span { display: inline-block; margin-bottom: 4px; font-weight: 600; color: #2e3d4f; }
+.location-result .result-row p { margin: 4px 0 0; line-height: 1.5; }
+.location-result ul { margin: 6px 0 0 16px; color: #425563; }
+.spinner { color: #0f4c5c; font-weight: 600; }
+.alert.error { margin-top: 12px; color: #a92e1b; background: #ffe8e4; border-left: 4px solid #d64531; padding: 8px 12px; border-radius: 8px; }
