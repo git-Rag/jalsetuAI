@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import LocationCard from '../components/LocationCard';
 import FeatureCard from '../components/FeatureCard';
 import { getVillageData } from '../services/api';
+import { useGroundwater } from '../hooks/useGroundwater';
+import AquiferGauge from '../components/UI/AquiferGauge';
+import DepletionTrend from '../components/UI/DepletionTrend';
 import './Home.css';
 
 const images = [
@@ -98,6 +101,7 @@ const fallbackDetails = {
 
 export default function Home() {
   const navigate = useNavigate();
+  const { data: groundwater, summary, loading: gwLoading, error: gwError } = useGroundwater();
   const [language, setLanguage] = useState(localStorage.getItem('jalsetu-lang') || 'en');
   const [locationInput, setLocationInput] = useState('');
   const [details, setDetails] = useState(null);
@@ -132,6 +136,17 @@ export default function Home() {
     backgroundImage: `linear-gradient(rgba(0, 20, 35, 0.5), rgba(15, 76, 92, 0.65)), url('${images[index]}')`,
   };
 
+  const sampleFrames = [
+    { villageId: 'V001', aquiferType: 'Vidisha', currentDepthMeters: 18.4, criticalDepthMeters: 25, aquiferHealthScore: 26, daysUntilCritical: 110, depletionRateMetersPerMonth: 1.8, rechargeZone: 'Low', wellCount: 4, wellCondition: 'Operational', monthlyReadings: [22, 21.5, 21, 20.3] },
+    { villageId: 'V003', aquiferType: 'Dindori', currentDepthMeters: 22.1, criticalDepthMeters: 25, aquiferHealthScore: 12, daysUntilCritical: 36, depletionRateMetersPerMonth: 2.4, rechargeZone: 'Low', wellCount: 2, wellCondition: 'Degraded', monthlyReadings: [23, 22.7, 22.4, 22.1] },
+    { villageId: 'V015', aquiferType: 'Gondwana Sandstone', currentDepthMeters: 14.2, criticalDepthMeters: 30, aquiferHealthScore: 53, daysUntilCritical: 430, depletionRateMetersPerMonth: 1.1, rechargeZone: 'Moderate', wellCount: 6, wellCondition: 'Operational', monthlyReadings: [20, 19.8, 19.1, 18.9] },
+    { villageId: 'V007', aquiferType: 'Mandla', currentDepthMeters: 20.1, criticalDepthMeters: 25, aquiferHealthScore: 20, daysUntilCritical: 73, depletionRateMetersPerMonth: 2.0, rechargeZone: 'Low', wellCount: 5, wellCondition: 'Degraded', monthlyReadings: [21, 20.6, 20.3, 20.1] },
+    { villageId: 'V002', aquiferType: 'Alluvial', currentDepthMeters: 16.8, criticalDepthMeters: 28, aquiferHealthScore: 38, daysUntilCritical: 180, depletionRateMetersPerMonth: 1.5, rechargeZone: 'Moderate', wellCount: 3, wellCondition: 'Operational', monthlyReadings: [19, 18.7, 18.4, 18.1] },
+    { villageId: 'V009', aquiferType: 'Basalt', currentDepthMeters: 19.5, criticalDepthMeters: 26, aquiferHealthScore: 35, daysUntilCritical: 95, depletionRateMetersPerMonth: 2.1, rechargeZone: 'Low', wellCount: 4, wellCondition: 'Operational', monthlyReadings: [21.5, 21.1, 20.7, 20.3] },
+    { villageId: 'V012', aquiferType: 'Sandstone', currentDepthMeters: 15.6, criticalDepthMeters: 32, aquiferHealthScore: 62, daysUntilCritical: 520, depletionRateMetersPerMonth: 0.9, rechargeZone: 'High', wellCount: 7, wellCondition: 'Operational', monthlyReadings: [17, 16.8, 16.5, 16.3] },
+    { villageId: 'V018', aquiferType: 'Alluvial', currentDepthMeters: 21.3, criticalDepthMeters: 24, aquiferHealthScore: 15, daysUntilCritical: 42, depletionRateMetersPerMonth: 2.2, rechargeZone: 'Low', wellCount: 3, wellCondition: 'Degraded', monthlyReadings: [23.8, 23.4, 23.0, 22.6] },
+    { villageId: 'V021', aquiferType: 'Gondwana Sandstone', currentDepthMeters: 13.1, criticalDepthMeters: 29, aquiferHealthScore: 67, daysUntilCritical: 380, depletionRateMetersPerMonth: 1.3, rechargeZone: 'Moderate', wellCount: 5, wellCondition: 'Operational', monthlyReadings: [14.8, 14.4, 14.1, 13.8] },
+  ];
   const parseCoordString = (raw) => {
     if (!raw || typeof raw !== 'string') return null;
     const parts = raw.split(/[,\s]+/).map((p) => parseFloat(p));
@@ -239,24 +254,23 @@ export default function Home() {
 
       <section className='section features-section'>
         <div className='container'>
-          <h2>{t.insightsTitle}</h2>
-          <p>{t.insightsDesc}</p>
-          <div className='feature-grid'>
-            <FeatureCard
-              title={t.feature1Title}
-              description={t.feature1Desc}
-              image='https://images.unsplash.com/photo-1517685352821-92cf88aee5a5?auto=format&fit=crop&w=1280&q=80'
-            />
-            <FeatureCard
-              title={t.feature2Title}
-              description={t.feature2Desc}
-              image='https://images.unsplash.com/photo-1526976668912-6d1eaa859f11?auto=format&fit=crop&w=1280&q=80'
-            />
-            <FeatureCard
-              title={t.feature3Title}
-              description={t.feature3Desc}
-              image='https://images.unsplash.com/photo-1528977695564-5c74c5d147b0?auto=format&fit=crop&w=1280&q=80'
-            />
+          <h2>Groundwater Data Frames</h2>
+          <p>Scroll through village groundwater insights.</p>
+          {gwLoading && <p className='loading-hint'>Loading groundwater frames...</p>}
+          <div className='horizontal-scroll'>
+            {(groundwater.length > 0 ? groundwater.slice(0, 10) : sampleFrames).map(gw => (
+              <div key={gw.villageId} className='gw-card'>
+                <h4>{gw.villageId} · {gw.aquiferType}</h4>
+                <AquiferGauge currentDepth={gw.currentDepthMeters} criticalDepth={gw.criticalDepthMeters} healthScore={gw.aquiferHealthScore} />
+                <div className='gw-attrs'>
+                  <div>Days to failure: {gw.daysUntilCritical}</div>
+                  <div>Depletion: {gw.depletionRateMetersPerMonth}m/month</div>
+                  <div>Recharge: {gw.rechargeZone}</div>
+                  <div>Wells: {gw.wellCount} ({gw.wellCondition})</div>
+                </div>
+                <div className='gw-trend'><DepletionTrend monthlyReadings={gw.monthlyReadings} /></div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

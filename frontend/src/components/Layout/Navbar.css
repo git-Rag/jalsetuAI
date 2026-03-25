@@ -1,5 +1,5 @@
 .navbar { position: sticky; top: 0; z-index: 200; transition: background 0.4s ease, box-shadow 0.4s ease; }
-.navbar-transparent { background: rgba(15, 76, 92, 0.2); box-shadow: none; color: #fff; }
+.navbar-transparent { background: rgba(15, 76, 92, 0.85); box-shadow: none; color: #fff; }
 .navbar-solid { background: #0f4c5c; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); color: #fff; }
 .navbar-inner { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; gap: 18px; max-width: 1240px; margin: 0 auto; }
 .brand { display: flex; align-items: center; gap: 10px; }
