@@ -4,6 +4,9 @@ const riskStyles = {
   Low: 'var(--success)',
   Medium: 'var(--warning)',
   High: 'var(--danger)',
+  कम: 'var(--success)',
+  मध्यम: 'var(--warning)',
+  उच्च: 'var(--danger)',
 };
 
 export default function LocationCard({

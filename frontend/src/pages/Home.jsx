@@ -147,6 +147,14 @@ export default function Home() {
     { villageId: 'V018', aquiferType: 'Alluvial', currentDepthMeters: 21.3, criticalDepthMeters: 24, aquiferHealthScore: 15, daysUntilCritical: 42, depletionRateMetersPerMonth: 2.2, rechargeZone: 'Low', wellCount: 3, wellCondition: 'Degraded', monthlyReadings: [23.8, 23.4, 23.0, 22.6] },
     { villageId: 'V021', aquiferType: 'Gondwana Sandstone', currentDepthMeters: 13.1, criticalDepthMeters: 29, aquiferHealthScore: 67, daysUntilCritical: 380, depletionRateMetersPerMonth: 1.3, rechargeZone: 'Moderate', wellCount: 5, wellCondition: 'Operational', monthlyReadings: [14.8, 14.4, 14.1, 13.8] },
   ];
+  const parseCoordString = (raw) => {
+    if (!raw || typeof raw !== 'string') return null;
+    const parts = raw.split(/[,\s]+/).map((p) => parseFloat(p));
+    if (parts.length >= 2 && !Number.isNaN(parts[0]) && !Number.isNaN(parts[1])) {
+      return { lat: parts[0], lon: parts[1] };
+    }
+    return null;
+  };
 
   const reportVillage = async (location) => {
     setError(null);
@@ -154,22 +162,30 @@ export default function Home() {
     setDetails(null);
 
     try {
-      const queryLocation = location?.trim() || 'Sehore';
-      const response = await getVillageData(queryLocation);
+      const trimmed = typeof location === 'string' ? location.trim() : '';
+      const coords = typeof location === 'object' && location?.lat != null && location?.lon != null
+        ? { lat: location.lat, lon: location.lon }
+        : parseCoordString(trimmed);
+
+      const params = coords
+        ? { lat: coords.lat, lon: coords.lon, lang: language }
+        : { q: trimmed || 'Sehore, Madhya Pradesh', lang: language };
+
+      const response = await getVillageData(params);
       const data = response?.data || fallbackDetails;
       setDetails({
-        locationName: data.village || queryLocation,
-        waterAvailability: data.waterLevel || data.waterAvailability || 'Moderate',
-        riskLevel: data.risk || data.riskLevel || 'Medium',
-        trendInsight: data.trendInsight || fallbackDetails.trendInsight,
+        locationName: data.location || data.village || trimmed || '—',
+        waterAvailability: data.waterAvailability || data.waterLevel || 'Moderate',
+        riskLevel: data.riskLevel || data.risk || 'Medium',
+        trendInsight: data.trend || data.trendInsight || fallbackDetails.trendInsight,
         tankerPrediction: data.tankerPrediction || fallbackDetails.tankerPrediction,
-        suggestedActions: data.suggestedActions || fallbackDetails.suggestedActions,
-        aiSummary: data.aiSummary || fallbackDetails.aiSummary,
+        suggestedActions: data.actions || data.suggestedActions || fallbackDetails.suggestedActions,
+        aiSummary: data.summary || data.aiSummary || fallbackDetails.aiSummary,
       });
     } catch (err) {
       console.warn('Village data fallback:', err?.message || err);
       setDetails(fallbackDetails);
-      setError('Live API unavailable, showing sample village data.');
+      setError(language === 'hi' ? 'लाइव API उपलब्ध नहीं; नमूना डेटा दिखाया जा रहा है।' : 'Live API unavailable, showing sample village data.');
     } finally {
       setLoading(false);
     }
@@ -186,7 +202,7 @@ export default function Home() {
       ({ coords }) => {
         const loc = `${coords.latitude.toFixed(4)}, ${coords.longitude.toFixed(4)}`;
         setLocationInput(loc);
-        reportVillage(loc);
+        reportVillage({ lat: coords.latitude, lon: coords.longitude });
       },
       (geoErr) => {
         setLoading(false);
@@ -288,7 +304,7 @@ export default function Home() {
         <div className='cta-overlay' />
         <div className='container cta-content'>
           <h2>{t.finalCta}</h2>
-          <button className='btn btn-primary' onClick={() => navigate('/dashboard')}>{t.dashboard}</button>
+          <button className='btn btn-primary' onClick={() => navigate('/dashboard')}>{t.goDashboard}</button>
         </div>
       </section>
     </div>
