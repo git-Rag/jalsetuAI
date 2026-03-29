@@ -66,17 +66,6 @@ JalSetu AI provides a **data-driven decision system** that:
 
 ---
 
-## 🧩 How It Works
-
-```mermaid
-graph TD
-A[Village Data] --> B[Prediction Engine]
-B --> C[Risk Classification]
-C --> D[Priority Scoring]
-D --> E[AI Analysis (Groq)]
-E --> F[Dashboard Output]
-```
-
 ---
 
 ## 🚀 Getting Started
