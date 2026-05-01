@@ -1,4 +1,4 @@
-# 💧 JalSetu AI
+#  JalSetu AI
 
 ### Smart Water Management System for Madhya Pradesh
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 Overview
+##  Overview
 
 JalSetu AI is a full-stack MERN application designed to transform water management in Madhya Pradesh from **reactive to proactive**. It predicts village-level water shortages, prioritizes tanker delivery, and generates AI-powered insights to support better decision-making.
 
@@ -14,7 +14,7 @@ The system is built as a **hackathon MVP** simulating real-world rural water sce
 
 ---
 
-## 🚨 Problem
+##  Problem
 
 * Water distribution in rural MP is often **reactive and unplanned**
 * No system predicts **which village will run out of water next**
@@ -23,7 +23,7 @@ The system is built as a **hackathon MVP** simulating real-world rural water sce
 
 ---
 
-## 💡 Solution
+##  Solution
 
 JalSetu AI provides a **data-driven decision system** that:
 
@@ -44,17 +44,17 @@ JalSetu AI provides a **data-driven decision system** that:
 
 ---
 
-## 🧠 Key Features
+##  Key Features
 
-* 🔮 Water shortage prediction (days left calculation)
-* 🚚 Smart tanker allocation (priority scoring)
-* 🌊 Groundwater monitoring (health score + depletion)
-* ⚠️ Dual crisis detection
-* 🤖 AI-generated insights and recommendations
+*  Water shortage prediction (days left calculation)
+*  Smart tanker allocation (priority scoring)
+*  Groundwater monitoring (health score + depletion)
+*  Dual crisis detection
+*  AI-generated insights and recommendations
 
 ---
 
-## 📊 Data Sources (Proposed Real Integration)
+##  Data Sources (Proposed Real Integration)
 
 * **PHED (MP):** Tanker logs, water supply data
 * **Jal Jeevan Mission:** Rural infrastructure data
@@ -62,13 +62,13 @@ JalSetu AI provides a **data-driven decision system** that:
 * **CGWB:** Groundwater reports
 * **Future:** IoT sensors + field-level inputs
 
-> ⚠️ Current MVP uses simulated data for demonstration purposes.
+>  Current MVP uses simulated data for demonstration purposes.
 
 ---
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone the repo
 
@@ -99,7 +99,7 @@ npm run dev
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 
 Create `.env` in backend:
 
@@ -132,14 +132,14 @@ JalSetu AI enables:
 
 ---
 
-## 📍 Target Region
+##  Target Region
 
 Madhya Pradesh (Pilot Districts):
 Sagar · Damoh · Panna · Chhatarpur · Tikamgarh · Vidisha · Raisen · Narsinghpur
 
 ---
 
-## 🤝 Contributors
+##  Contributors
 
 * Backend Developer
 * Frontend Developer
@@ -150,3 +150,9 @@ Sagar · Damoh · Panna · Chhatarpur · Tikamgarh · Vidisha · Raisen · Narsi
 ## 📜 License
 
 This project is built for educational and hackathon purposes.
+
+## Project Info
+
+This project was developed and presented at the Smart Samadhan Hackathon (OIST).
+
+---
